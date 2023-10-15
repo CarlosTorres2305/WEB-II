@@ -1,10 +1,20 @@
 import express from "express";
 import dotenv from "dotenv";
+import routes from "./routes";
 dotenv.config();
 
+//será usado se a variável de ambiente não tiver sido definida
 const PORT = process.env.port || 3000;
 
+//cria o servicor e coloca na variável app
 const app = express();
+
+//rota para um arquivo
+app.use('/manha', express.static('public/dia.txt'));
+
+//rota para a pasta public
+app.use("/arquivo", express.static('public')); 
+
 app.use(express.json());
 
 app.listen(PORT, ()=>{
@@ -39,3 +49,8 @@ app.post("/teste", (req, res) => res.send("Método HTTP POST"));
 app.put("/teste", (req, res) => res.send("Método HTTP PUT"));
 //define a rota para DELETE /teste
 app.delete("/teste", (req, res) => res.send("Método HTTP DELETE"));
+
+
+
+
+
