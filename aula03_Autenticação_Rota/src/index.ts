@@ -57,12 +57,26 @@ const validar = (req: Request, res: Response, next: NextFunction) => {
     return res.status(401).send({error:"Não autorizado"});
 };
 
-const objetivo = (req: Request, res: Response) => {
+/*const objetivo = (req: Request, res: Response) => {
     //obtém os dados do nível anterior da middleware que foram armazenados no objeto locals
     const {status} = res.locals;
     res.send({situacao: status});
 }
 
-app.get("/logar", validar, objetivo)
+app.get("/logar", validar, objetivo)*/
+
+app.use((req,res,next) => {
+    const {senha} = req.body;
+    if(senha && senha === "123"){
+        return next(); //chama a proxima função ou rota
+    }
+    //resposta com HTTP Method 401 (Unauthorized)
+    return res.status(401).send({error:"Não autorizado"});
+});
+
+const objetivo = (req: Request, res: Response) => {
+    res.send({situacao: "logado"});
+}
+app.get("/logar", objetivo);
 
 
